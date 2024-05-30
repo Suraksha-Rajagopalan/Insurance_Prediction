@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insurance Charges Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+      /* Light mode styles */
+      body.light-mode {
+        background-color: #f8f9fa; /* Light gray background */
+        color: #343a40; /* Dark gray text color */
+      }
+
+      /* Dark mode styles */
+      body.dark-mode {
+        background-color: #343a40; /* Dark gray background */
+        color: #f8f9fa; /* Light gray text color */
+      }
+
+      /* Container styles */
+      .custom-container {
+        max-width: 800px; /* Limiting content width */
+        margin: 0 auto; /* Centering content horizontally */
+        padding: 20px; /* Adding some padding */
+      }
+
+      /* Form styles */
+      .custom-form {
+        background-color: #ffffff; /* White background */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Adding some padding */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+      }
+
+      /* Button styles */
+      .custom-button {
+        background-color: #007bff; /* Blue button color */
+        color: #ffffff; /* White text color */
+        border: none; /* No border */
+        border-radius: 4px; /* Rounded corners */
+        padding: 10px 20px; /* Adding some padding */
+        cursor: pointer; /* Pointer cursor on hover */
+      }
+
+      /* Prediction styles */
+      .prediction-list {
+        list-style-type: none; /* Remove bullet points */
+        padding: 0;
+      }
+
+      .prediction-item {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Insurance Predictor</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/plots">Plots</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="custom-container">
+      <h1 class="mt-5 mb-4">Insurance Charges Prediction</h1>
+
+      <!-- Prediction form -->
+      <div class="custom-form">
+        <form action="/predict" method="post">
+          <div class="mb-3">
+            <label for="age" class="form-label">Age:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="age"
+              name="age"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="sex" class="form-label"
+              >Sex (0 for female, 1 for male):</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="sex"
+              name="sex"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="bmi" class="form-label">BMI:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="bmi"
+              name="bmi"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="children" class="form-label">Number of Children:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="children"
+              name="children"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="smoker" class="form-label"
+              >Smoker (0 for no, 1 for yes):</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="smoker"
+              name="smoker"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="region" class="form-label"
+              >Region (0, 1, 2, or 3):</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="region"
+              name="region"
+              required
+            />
+          </div>
+          <button type="submit" class="btn custom-button">Predict</button>
+        </form>
+      </div>
+
+      <!-- Predictions -->
+      {% if predictions %}
+      <div class="mt-4">
+        <h2>Predictions:</h2>
+        <ul class="prediction-list">
+          {% for model, prediction in predictions.items() %}
+          <li class="prediction-item">{{ model }}: {{ prediction|float }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+      <!-- Input parameters -->
+      {% if input_params %}
+      <div class="mt-4">
+        <h2>Input Parameters:</h2>
+        <ul class="prediction-list">
+          {% for param, value in input_params.items() %}
+          <li class="prediction-item">{{ param }}: {{ value }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    
+    <!-- JavaScript for dark/light mode toggling -->
+    <script>
+      function toggleMode() {
+        // Toggle between light and dark mode by toggling the body class
+        document.body.classList.toggle("dark-mode");
+      }
+    </script>
+  </body>
+</html>
